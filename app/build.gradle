@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,17 +18,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
+    androidTestCompile('com.microsoft.appcenter:appium-test-extension:1.0', {
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-htmlunit-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-chrome-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-edge-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-firefox-driver'
+        exclude group: 'org.seleniumhq.selenium', module: 'selenium-ie-driver'
+        exclude group: 'org.seleniumhq.selenium', module:'selenium-safari-driver'
+        exclude group: 'commons-beanutils', module:'commons-beanutils'
     })
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
     def appCenterSdkVersion = '1.0.0'
     compile "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     compile "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+}
+configurations {
+    all*.exclude group: 'cglib', module: 'cglib'
+
 }
